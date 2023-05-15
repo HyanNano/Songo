@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Accueil</title>
+        <link rel="shortcut icon" href="Romain.ico" type="image/x-icon">
+        
+        <link rel="stylesheet" type="text/css" href="css/mystyle.css" />
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <script src="js/meny.js"></script>
+
+    </head>
+    <body>
+            <!--Partie 1 commune a toutes mes pages-->
+            <div class="meny">
+            <h1>Roman Lanery</h1>
+            <img src="images/profil/Romain.jpeg" alt="photo de profil de Roman Lanery">
+
+            <nav class="outer-nav left vertical">
+                <ul>
+                    <li><a href="accueil.html" class="icon-home">Accueil</a></li>
+                    <li><a href="habillement.html">Habillement</a></li>
+                    <li><a href="nourriture.html">Nourriture</a></li>
+                    <li><a href="musique.html">Musique</a></li>
+                    <li><a href="songo.html">songo</a></li>
+                </ul>
+            </nav>
+            </div>
+            <!--Fin de la partie 1 commune-->
+
+            <div class="meny-arrow"></div>
+            <div class="contents">
+                <h2>Bienvenue</h2>
+        
+                <p>
+                    Derrière TechNews&Tests, on retrouve Romain Lanery, youtubeur aux 1 millions abonnés. C’est tout naturellement que nous l’avons mis dans notre classement de nos youtubers high-tech préférés. Sa passion pour la tech elle démarre à 10 ans lorsque son oncle lui met un appareil photo reflex entre les mains. Depuis, ce jeune Monégasque est devenu un expert de renom et vit de sa passion. Ses vidéos setup dans lesquelles il présente différentes installations high-tech sont très appréciées par sa communauté.
+                </p>
+        
+                <p>
+                    Passionné de tech, de crypto et d'automobile.
+        
+                    Testeur de produits technologiques en tous genres depuis 2015. A fini par s’intéresser aux humains qui les fabriquent.
+                </p>
+        
+                
+            </div>
+                    
+        <!--Partie 2 commune a toutes mes pages-->
+
+        <footer>
+            <ul>
+                <li><a href="https://www.facebook.com/RomainLanery"><img src="images/socialmedia/fb.png" alt="facebook">RomainLanery</a></li>
+                <li><a href="https://instagram.com/romainlanery"><img src="images/socialmedia/insta.png" alt="instagram">RomainLanery</a></li>
+                <li><a href="https://twitter.com/romainlanery"><img src="images/socialmedia/twitter.png" alt="twitter">RomainLanery</a></li>
+                <li><a href="https://youtube.com/@romainlanery"><img src="images/socialmedia/youtube.png" alt="youtube">RomainLanery</a></li>
+            </ul>
+        </footer>
+        <!--Fin de la partie 2 commune -->
+          
+        <script>
+            var meny = Meny.create({
+            menuElement: document.querySelector( '.meny' ),
+            contentsElement: document.querySelector( '.contents' ),
+        // [optional] alignement du menu (top/right/bottom/left)
+            position: Meny.getQuery().p || 'left',
+        // [optional] hauteur du menu (pour la position top ou bottom)
+            height: 200,
+        // [optional] largeur du menu (pour la position left ou right)
+            width: 260,
+        // [optional] distance de d�clenchement du menu par rapport au menu
+            threshold: 40,
+        // [optional] utilisation des mouvement de la souris pour l'ouverture ou la fermeture
+            mouse: true,
+        // [optional] utilisation de l'approche
+            touch: true
+            });
+        
+            if( Meny.getQuery().u && Meny.getQuery().u.match( /^http/gi ) ) {
+                var contents = document.querySelector( '.contents' );
+                contents.style.padding = '0px';
+                contents.innerHTML = '<div class="cover"></div><iframe src="'+ Meny.getQuery().u +'" style="width: 100%; height: 100%; border: 0; position: absolute;"></iframe>';
+            }
+        </script>
+        <!-- source : http://github.com/hakimel/meny -->
+
+
+    </body>
+</html>

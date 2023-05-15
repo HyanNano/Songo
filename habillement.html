@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Habillement</title>
+        <link rel="shortcut icon" href="Romain.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <script src="js/meny.js"></script>
+    </head>
+    <body>
+        <!--Partie 1 commune a toutes mes pages-->
+        <div class="meny">
+        <h1>Roman Lanery</h1>
+        <img src="images/profil/Romain.jpeg" alt="photo de profil de Roman Lanery">
+
+        <nav>
+            <ul>
+                <li><a href="accueil.html">Accueil</a></li>
+                <li><a href="habillement.html">Habillement</a></li>
+                <li><a href="nourriture.html">Nourriture</a></li>
+                <li><a href="musique.html">Musique</a></li>
+                <li><a href="songo.html">songo</a></li>
+            </ul>
+        </nav>
+        </div>
+        <!--Fin de la partie 1 commune-->
+        <div class="meny-arrow">Menu</div>
+        <div class="contents">
+        <h2>Habillement</h2>
+        
+        <p>
+            Au-delà de nous protéger du froid, du soleil, des agressions extérieures…, les vêtements ont un double rôle : montrer, mettre en valeur un peu de nous et cacher notre nudité, notre intimité, camoufler ce qui nous dérange. Les vêtements viennent dire quelque chose de notre identité.
+        </p>
+
+        <p>
+            Alors que porte Roman Lanery ?<br>
+            Vous le decouvrirez au travers des images suivantes:
+        </p>
+
+        <p>
+            <img src="images/dress/chemise_supercent.jpg" alt="chemise et supercent">
+            <img src="images/dress/cool1.jpg" alt="cool">
+            <img src="images/dress/cool2.jpg" alt="cool">
+            <img src="images/dress/cool3.jpg" alt="cool">
+            <img src="images/dress/costard1.jpg" alt="costard">
+            <img src="images/dress/costard2.jpg" alt="costard">
+            <img src="images/dress/simple1.jpg" alt="simple">
+            <img src="images/dress/simple2.jpg" alt="simple">
+        </p>
+
+
+        <!--Partie 2 commune a toutes mes pages-->
+        <footer>
+            <ul>
+                <li><a href="https://www.facebook.com/RomainLanery"><img src="images/socialmedia/fb.png" alt="facebook">RomainLanery</a></li>
+                <li><a href="https://instagram.com/romainlanery"><img src="images/socialmedia/insta.png" alt="instagram">RomainLanery</a></li>
+                <li><a href="https://twitter.com/romainlanery"><img src="images/socialmedia/twitter.png" alt="twitter">RomainLanery</a></li>
+                <li><a href="https://youtube.com/@romainlanery"><img src="images/socialmedia/youtube.png" alt="youtube">RomainLanery</a></li>
+            </ul>
+        </footer>
+        <!--Fin de la partie 2 commune -->
+        </div>
+
+        <script>
+            var meny = Meny.create({
+            menuElement: document.querySelector( '.meny' ),
+            contentsElement: document.querySelector( '.contents' ),
+        // [optional] alignement du menu (top/right/bottom/left)
+            position: Meny.getQuery().p || 'left',
+        // [optional] hauteur du menu (pour la position top ou bottom)
+            height: 200,
+        // [optional] largeur du menu (pour la position left ou right)
+            width: 260,
+        // [optional] distance de d�clenchement du menu par rapport au menu
+            threshold: 40,
+        // [optional] utilisation des mouvement de la souris pour l'ouverture ou la fermeture
+            mouse: true,
+        // [optional] utilisation de l'approche
+            touch: true
+            });
+        
+            if( Meny.getQuery().u && Meny.getQuery().u.match( /^http/gi ) ) {
+                var contents = document.querySelector( '.contents' );
+                contents.style.padding = '0px';
+                contents.innerHTML = '<div class="cover"></div><iframe src="'+ Meny.getQuery().u +'" style="width: 100%; height: 100%; border: 0; position: absolute;"></iframe>';
+            }
+        </script>
+        <!-- source : http://github.com/hakimel/meny -->
+
+    </body>
+</html>

@@ -10,8 +10,10 @@ table{
     
 }
 
-.tableau{
-
+button{
+    border: none;
+    background-color: aqua;
+    color:blueviolet;
 }
 
 #col2{

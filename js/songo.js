@@ -1,13 +1,13 @@
 class Songo{
     
 
-    constructor(coteJoueur1, coteJoueur2, col1, col3){
-        this.coteJoueur1 = coteJoueur1;
-        this.coteJoueur2 = coteJoueur2;
+    constructor(){
+        this.coteJoueur1 = [5,5,5,5,5,5,5];
+        this.coteJoueur2 =  [5,5,5,5,5,5,5];
         this.pointJoueur1 = 0;
         this.pointJoueur2 = 0;
-        this.col1 = col1;
-        this.col3 = col3;
+        this.col1 = 0;
+        this.col3 = 0;
 
     }
 
@@ -29,89 +29,95 @@ class Songo{
 
     }
 
-    distribution(idJ,cellule) {
+    distribution(idJ,indice_cellule) {
         //qui retourne un entier correspondant a l'indice de la derniere cellule ou s'est effectuee la distribution.
 
+        this.afficher();
+
+        let indice_cellule_prise;
         let tableau = this.tableau_distribution();
+
+        valeur = tableau[indice_cellule];
+
 
 
         //cellule ici est la cellule sur laquelle on a clique
 
-        for (let index = 0; index < tableau.length; index++) {
-            const element = tableau[index];
-            
-            if(element == cellule){
-                //si cellule est cet element du tableau
 
-                let valeur = cellule.value;
+        if(valeur == 0){
+            //Le tableau ne change pas.
 
-                if(valeur == 0){
-                    //Le tableau ne change pas.
+            //Le joueur doit rejouer
 
-                    //Le joueur doit rejouer
+        }else{
 
-                }else{
+            if(index == 6 || index ==13){
 
-                    if(index == 6 || index ==13){
+                if(valeur == 1 || valeur == 2){
+                    //gestion des interdits
 
-                        if(valeur == 1 || valeur == 2){
-                            //gestion des interdits
-    
-                            //si il y aura prise, on peut jouer la case
-    
-                            //si c'est la seule case qui dispose des pierres,on peut la jouer
+                    //si il y aura prise, on peut jouer la case
 
-                        }
-                    }else{
-                    
-                        for(let i = index+1; i< index+1+valeur;i++){
-                            //ici on a i comme l'indice des prochaines cellules a incrementer.
-                            const cell = tableau[i];
-                           
-                            cell.value ++;
-                            //La cellule est incrementer
-                        
-                        }
-                    }
+                    //si c'est la seule case qui dispose des pierres,on peut la jouer
+
                 }
+            }else{
+            
+                for(let i = indice_cellule+1; i< indice_cellule+1+valeur;i++){
+                    //ici on a i comme l'indice des prochaines cellules a incrementer.
+                    let index = i%14;
+                    
+                    tableau[index]++;
+                    //La cellule est incrementer
                 
+                    indice_cellule_prise = index;
+                }
             }
         }
-        }
+        
+        this.actualiser(tableau);
+        this.afficher();
 
-    prise(idJ,cellule) {
+    
+        return indice_cellule_prise;
+    }
+    
+
+    prise(idJ,indice_cellule) {
         //qui realise la prise
 
         //cellule ici est la cellule sur laquelle on a clique
 
+        let indice_cellule_prise = this.distribution(idJ,indice_cellule);
 
-        let tableau = this.tableau_distribution()
+        let tableau = this.tableau_distribution();
 
-        let cellule_prise = tableau[this.distribution(idJ,cellule)];
+        let cellule_prise = tableau[indice_cellule_prise];
         //cellule_prise est la cellule sur laquelle on testera s'il y a une prise ou non.
 
-        let cellule_prise_suivante = tableau[this.distribution(idJ,cellule) + 1];
+        let cellule_prise_suivante = tableau[indice_cellule_prise + 1];
         //cellule_prise_suivante
 
         if(2 <= cellule_prise.value <= 4){
             //si la cellule prise est entre 2 et 4.
 
-            this.col(idJ).value += cellule_prise.value;
+            this.col(idJ).value += cellule_prise;
 
-            cellule_prise.value = 0;
+            tableau[indice_cellule_prise] = 0;
 
 
             if(2 <= cellule_prise_suivante <= 4){
                 //si la cellule prise est entre 2 et 4.
 
-                this.col(idJ).value += cellule_prise_suivante.value;
+                this.col(idJ) += cellule_prise_suivante;
                 
-                cellule_prise_suivante.value = 0;
+                tableau[indice_cellule_prise + 1] = 0;
             }
 
         }
 
-
+        this.actualiser(tableau);
+        this.afficher();
     }
 
     poursuiteJeu() {
@@ -130,7 +136,7 @@ class Songo{
             for (let index = 0; index < this.coteJoueur1.length; index++) {
                 const element = this.coteJoueur1[index];
                 
-                somme1 += element.value;
+                somme1 += element;
             }
 
             somme1 = somme1 + this.nbPoints(1);
@@ -144,7 +150,7 @@ class Songo{
             for (let index = 0; index < this.coteJoueur1.length; index++) {
                 const element = this.coteJoueur1[index];
                 
-                somme2 += element.value;
+                somme2 += element;
             }
 
             somme2 = somme2 + this.nbPoints(1);
@@ -212,7 +218,73 @@ class Songo{
             return this.col2;
         }
     }
+
+    actualiser(tableau){
+
+        // actualise ou modifie les donnees des coteJoueur[]
+        for (let index = 0; index < tableau.length; index++) {
+            const element = tableau[index];
+
+            if(index < 7){
+                this.coteJoueur1[index] = element;
+            }else{
+                this.coteJoueur2[index-7] = element;
+            }
+            
+        }
+    }
+
+    afficher(){
+        document.getElementById("player1[0]").innerHTML = this.coteJoueur1[0];
+        document.getElementById("player1[1]").innerHTML = this.coteJoueur1[1];
+        document.getElementById("player1[2]").innerHTML = this.coteJoueur1[2];
+        document.getElementById("player1[3]").innerHTML = this.coteJoueur1[3];
+        document.getElementById("player1[4]").innerHTML = this.coteJoueur1[4];
+        document.getElementById("player1[5]").innerHTML = this.coteJoueur1[5];
+        document.getElementById("player1[6]").innerHTML = this.coteJoueur1[6];
+    
+        document.getElementById("player2[0]").innerHTML = this.coteJoueur2[0];
+        document.getElementById("player2[1]").innerHTML = this.coteJoueur2[1];
+        document.getElementById("player2[2]").innerHTML = this.coteJoueur2[2];
+        document.getElementById("player2[3]").innerHTML = this.coteJoueur2[3];
+        document.getElementById("player2[4]").innerHTML = this.coteJoueur2[4];
+        document.getElementById("player2[5]").innerHTML = this.coteJoueur2[5];
+        document.getElementById("player2[6]").innerHTML = this.coteJoueur2[6];
+    
+        document.getElementById("col1").innerHTML = this.col1;
+        document.getElementById("col3").innerHTML = this.col3;
+    }
+    
 }
+
+
+function getIndice(){
+    //let indice;
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(button =>{
+        button.addEventListener("click", event => {
+            value = event.target.value;
+            alert("valeur du bouton : " + event.target.value);
+        });
+    });
+    return value; 
+};
+document.getElementById("player1[0]").innerHTML = "BUTTON";
+
+/* monSongo = new Songo();
+monSongo.afficher();
+while(true){
+    let indice = parseInt(getIndice());
+    if(indice < 7){
+        let idJ = 1;
+    }
+    else if(indice >= 7){
+        let idJ = 2;
+    };
+    monSongo.prise(idJ, indice);
+} */
+
+
 
 /* 
 player1 = document.getElementsByTagName(tr).item(0);

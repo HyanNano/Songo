@@ -254,6 +254,9 @@ class Songo{
     
 }
 
+
+monSongo = new Songo();
+
 function main(event){
     monSongo.afficher();
     //alert("oops!");
@@ -265,7 +268,7 @@ function main(event){
         idJ = 1;
         //alert(idJ);
     }
-    else if(indice >= 7){
+    else{
         idJ = 2;        
         // alert(idJ);
     };
@@ -277,11 +280,9 @@ function main(event){
     // alert("fffin");
 }
 
-monSongo = new Songo();
 
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll("th > button");
 
 for (const button of buttons) {
   button.addEventListener("click", main);
 }
- alert("Good");

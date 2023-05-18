@@ -13,7 +13,8 @@ table{
 button{
     border: none;
     background-color: aqua;
-    color:blueviolet;
+    color:black;
+    width: 100%;
 }
 
 #col2{

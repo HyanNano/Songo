@@ -262,7 +262,7 @@ function main(event){
     //alert("oops!");
     let indice = parseInt(event.target.value);
     //let indice = 5; 
-    alert(indice);
+    //alert(indice);
     let idJ;
     if(indice < 7){
         idJ = 1;

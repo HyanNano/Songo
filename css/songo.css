@@ -9,8 +9,11 @@ table{
     background-color: aqua;
     
 }
+p > button:hover{
+    background-color: maroon;
+}
 
-button{
+th > button{
     border: none;
     background-color: aqua;
     color:black;

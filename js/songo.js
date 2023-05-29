@@ -339,6 +339,77 @@ class Songo{
     
 }
 
+// AJAX
+function get_from_server(songo){
+        
+    let httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+        alert('Abandon :( Impossible de créer une instance de XMLHTTP');
+        return false;
+    }
+    httpRequest.onreadystatechange = function() {
+
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+            let response = JSON.parse(httpRequest.responseText);
+            alert(response.coteJoueur1);
+            songo.coteJoueur1 = response.coteJoueur1;
+            songo.coteJoueur2 = response.coteJoueur2;
+            songo.pointJoueur1 = response.pointJoueur1;
+            songo.pointJoueur2 = response.pointJoueur2;
+            
+            } else {
+            alert('Un problème est survenu avec la requête.');
+            }
+        }
+          
+    };
+    httpRequest.open('GET', 'data_get.php');
+    httpRequest.send();
+
+}
+
+function send_to_server(songo){
+
+    let httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+        alert('Abandon :( Impossible de créer une instance de XMLHTTP');
+        return false;
+    }
+    httpRequest.onreadystatechange = function() {
+
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+            let response = JSON.parse(httpRequest.responseText);
+            alert(response.pointJoueur1);
+            alert(response.coteJoueur1);
+            /* 
+            songo.coteJoueur1 = response.coteJoueur1;
+            songo.coteJoueur2 = response.coteJoueur2;
+            songo.pointJoueur1 = response.pointJoueur1;
+            songo.pointJoueur2 = response.pointJoueur2; 
+            */
+
+            alert(response.coteJoueur1);
+            } else {
+            alert('Un problème est survenu avec la requête.');
+            }
+        }
+          
+    };
+
+    let t1 = songo.coteJoueur1.join('|');
+    let t2 = songo.coteJoueur2.join('|');
+
+    httpRequest.open('POST', 'data_send.php');
+    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+   /*  httpRequest.send('coteJoueur1[0]=' + songo.coteJoueur1[0] +'&coteJoueur1[1]=' + songo.coteJoueur1[1] +'&coteJoueur1[2]=' + songo.coteJoueur1[2] +'&coteJoueur1[3]=' + songo.coteJoueur1[3] +'&coteJoueur1[4]=' + songo.coteJoueur1[4] +'&coteJoueur1[5]=' + songo.coteJoueur1[5] +'&coteJoueur1[6]=' + songo.coteJoueur1[6] + '&coteJoueur2[0]=' + songo.coteJoueur2[0] +'&coteJoueur2[1]=' + songo.coteJoueur2[1] +'&coteJoueur2[2]=' + songo.coteJoueur2[2] +'&coteJoueur2[3]=' + songo.coteJoueur2[3] +'&coteJoueur2[4]=' + songo.coteJoueur2[4] +'&coteJoueur2[5]=' + songo.coteJoueur2[5] +'&coteJoueur2[6]=' + songo.coteJoueur2[6] + '&pointJoueur1=' + songo.pointJoueur1 + '&pointJoueur2=' + songo.pointJoueur2);
+     */
+    httpRequest.send('coteJoueur1='+ t1 + '&coteJoueur2='+ t2 +'&pointJoueur1='+songo.pointJoueur1 +'&pointJoueur2='+songo.pointJoueur2);
+}
+
 // const controller = new AbortController();
 
 function abonne(event){
@@ -351,7 +422,14 @@ function abonne(event){
         idJ = 2;        
     };
 
+    // Recevoir les donnees du serveur
+    get_from_server(monSongo);
+
+    // Traiter les donnees
     monSongo.prise(idJ, indice);
+    
+    // Envoyer les donnees au serveur
+    send_to_server(monSongo);
 
     // Poursuite du Jeu
     if(!(monSongo.poursuiteJeu())){
@@ -430,3 +508,12 @@ const vs_abonne = document.querySelector("#vs_abonne");
 
 vs_abonne.addEventListener("click", jouer_vs_abonne);
 vs_machine.addEventListener("click", jouer_vs_machine);
+
+/* let s = new Songo();
+let t = [];
+t.push(s.coteJoueur1);
+t.push(s.coteJoueur2);
+t.push(s.pointJoueur1);
+t.push(s.pointJoueur2);
+
+alert(t); */

@@ -340,7 +340,7 @@ class Songo{
 }
 
 // AJAX
-function get_from_server(songo){
+function get_from_server(){
         
     let httpRequest = new XMLHttpRequest();
 
@@ -353,12 +353,15 @@ function get_from_server(songo){
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
             let response = JSON.parse(httpRequest.responseText);
-            alert(response.coteJoueur1);
-            songo.coteJoueur1 = response.coteJoueur1;
-            songo.coteJoueur2 = response.coteJoueur2;
-            songo.pointJoueur1 = response.pointJoueur1;
-            songo.pointJoueur2 = response.pointJoueur2;
+            //alert(response.coteJoueur1);
+            for(let i = 0; i<7;i++){
+            monSongo.coteJoueur1[i] = parseInt(response.coteJoueur1[i]);
+            monSongo.coteJoueur2[i] = parseInt(response.coteJoueur2[i]);
+            }
+            monSongo.pointJoueur1 = parseInt(response.pointJoueur1);
+            monSongo.pointJoueur2 = parseInt(response.pointJoueur2);
             
+            //alert(songo.coteJoueur1);
             } else {
             alert('Un problème est survenu avec la requête.');
             }
@@ -370,7 +373,7 @@ function get_from_server(songo){
 
 }
 
-function send_to_server(songo){
+function send_to_server(){
 
     let httpRequest = new XMLHttpRequest();
 
@@ -383,16 +386,16 @@ function send_to_server(songo){
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
             let response = JSON.parse(httpRequest.responseText);
-            alert(response.pointJoueur1);
+            /* alert(response.pointJoueur1);
             alert(response.coteJoueur1);
-            /* 
+          
             songo.coteJoueur1 = response.coteJoueur1;
             songo.coteJoueur2 = response.coteJoueur2;
             songo.pointJoueur1 = response.pointJoueur1;
             songo.pointJoueur2 = response.pointJoueur2; 
-            */
+            
 
-            alert(response.coteJoueur1);
+            alert(response.coteJoueur1); */
             } else {
             alert('Un problème est survenu avec la requête.');
             }
@@ -400,14 +403,14 @@ function send_to_server(songo){
           
     };
 
-    let t1 = songo.coteJoueur1.join('|');
-    let t2 = songo.coteJoueur2.join('|');
+    let t1 = monSongo.coteJoueur1.join('|');
+    let t2 = monSongo.coteJoueur2.join('|');
 
     httpRequest.open('POST', 'data_send.php');
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
    /*  httpRequest.send('coteJoueur1[0]=' + songo.coteJoueur1[0] +'&coteJoueur1[1]=' + songo.coteJoueur1[1] +'&coteJoueur1[2]=' + songo.coteJoueur1[2] +'&coteJoueur1[3]=' + songo.coteJoueur1[3] +'&coteJoueur1[4]=' + songo.coteJoueur1[4] +'&coteJoueur1[5]=' + songo.coteJoueur1[5] +'&coteJoueur1[6]=' + songo.coteJoueur1[6] + '&coteJoueur2[0]=' + songo.coteJoueur2[0] +'&coteJoueur2[1]=' + songo.coteJoueur2[1] +'&coteJoueur2[2]=' + songo.coteJoueur2[2] +'&coteJoueur2[3]=' + songo.coteJoueur2[3] +'&coteJoueur2[4]=' + songo.coteJoueur2[4] +'&coteJoueur2[5]=' + songo.coteJoueur2[5] +'&coteJoueur2[6]=' + songo.coteJoueur2[6] + '&pointJoueur1=' + songo.pointJoueur1 + '&pointJoueur2=' + songo.pointJoueur2);
      */
-    httpRequest.send('coteJoueur1='+ t1 + '&coteJoueur2='+ t2 +'&pointJoueur1='+songo.pointJoueur1 +'&pointJoueur2='+songo.pointJoueur2);
+    httpRequest.send('coteJoueur1='+ t1 + '&coteJoueur2='+ t2 +'&pointJoueur1='+monSongo.pointJoueur1 +'&pointJoueur2='+monSongo.pointJoueur2);
 }
 
 // const controller = new AbortController();
@@ -422,14 +425,28 @@ function abonne(event){
         idJ = 2;        
     };
 
+    monSongo.afficher();
     // Recevoir les donnees du serveur
-    get_from_server(monSongo);
+    get_from_server();
+
+    //affichage des donnees recus
+    setTimeout(() => {
+        monSongo.afficher();
+    }, 2000);
 
     // Traiter les donnees
-    monSongo.prise(idJ, indice);
+    setTimeout(() => {
+            monSongo.prise(idJ,indice)
+        }, 2000);
     
     // Envoyer les donnees au serveur
-    send_to_server(monSongo);
+    send_to_server();
+
+    // Recevoir les donnees du serveur
+    get_from_server();
+
+    //affichage des donnees recus
+    monSongo.afficher()
 
     // Poursuite du Jeu
     if(!(monSongo.poursuiteJeu())){
@@ -483,6 +500,10 @@ function jouer_vs_abonne(){
     monSongo = new Songo();
     monSongo.afficher();
 
+    //initialisation des donnees du serveur
+        // Envoyer les donnees au serveur
+        send_to_server(); 
+
     const buttons = document.querySelectorAll("th > button");
 
     for (const button of buttons) {
@@ -509,11 +530,3 @@ const vs_abonne = document.querySelector("#vs_abonne");
 vs_abonne.addEventListener("click", jouer_vs_abonne);
 vs_machine.addEventListener("click", jouer_vs_machine);
 
-/* let s = new Songo();
-let t = [];
-t.push(s.coteJoueur1);
-t.push(s.coteJoueur2);
-t.push(s.pointJoueur1);
-t.push(s.pointJoueur2);
-
-alert(t); */

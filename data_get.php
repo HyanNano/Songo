@@ -1,7 +1,9 @@
 <?php
 
-    $data = file_get_contents("my_data.json");
+    $donnee = file_get_contents("my_data.txt");
 
-    echo $data;
+    //$data = json_encode($donnee);
+
+    echo $donnee;
 
 ?>

@@ -39,7 +39,7 @@
     /* $json = fopen('my_data.json',"w");
     fwrite($json,$data); */
 
-    file_put_contents('my_data.json',$data);// Aiming to overwrite the file
+    file_put_contents('my_data.txt',$data);// Aiming to overwrite the file
     
     echo $data;
 ?>
